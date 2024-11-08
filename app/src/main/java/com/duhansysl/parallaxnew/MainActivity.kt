@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
                     .setMessage("Lütfen bir metin giriniz.")
                     .setPositiveButton("Tamam") { dialog, _ -> dialog.dismiss() }
                     .show()
+                return@setOnClickListener
             } else if (textLength in 1..3) {
                 sensorThreshold = 1f
                 textSpeedMultiplier = 90f
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             } else if (textLength == 5) {
                 sensorThreshold = 1f
                 textSpeedMultiplier = 160f
-            } else {
+            } else if (textLength > 5) {
                 AlertDialog.Builder(this)
                     .setTitle("Hata!")
                     .setMessage("Lütfen maksimum 5 harfli bir kelime giriniz.")
@@ -56,7 +57,6 @@ class MainActivity : AppCompatActivity() {
                     .show()
                 return@setOnClickListener
             }
-
             val intent = Intent(this@MainActivity, SecondActivity::class.java).apply {
                 putExtra("TEXT", text)
                 putExtra("TEXT_THRESHOLD", sensorThreshold)
