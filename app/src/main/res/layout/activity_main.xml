@@ -28,7 +28,7 @@
         android:layout_marginEnd="50dp"
         android:ems="10"
         android:hint="Lütfen Gösterilecek Metni Girin"
-        android:inputType="text"
+        android:inputType="textCapCharacters"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
