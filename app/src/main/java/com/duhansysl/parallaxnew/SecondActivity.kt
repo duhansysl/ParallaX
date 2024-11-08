@@ -18,10 +18,10 @@ class SecondActivity : AppCompatActivity(), SensorEventListener {
     private var lastX = 0f
     private var textToDisplay: String = "TEXT"  // Intent ile alınacak metin
     private var translationX = 0f  // TextView'in x eksenindeki konumu
-    private val threshold = 1f  // Eşik değeri
-    private val moveSpeedMultiplier = 90f  // Hareket hızını ayarlamak için çarpan
     private var isMoving = false  // Hareket durumunu takip etmek için
     private var handler = Handler()  // Handler oluşturma
+    private var sensorThreshold: Float = 0f
+    private var textSpeedMultiplier: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +30,10 @@ class SecondActivity : AppCompatActivity(), SensorEventListener {
         binding = ActivitySecondBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Intent ile gelen metni al
-        textToDisplay = intent.getStringExtra("TEXT") ?: "Default Text"
+        // Intent ile gelen metni ve diğer verileri al
+        textToDisplay = intent.getStringExtra("TEXT") ?: ""
+        sensorThreshold = intent.getFloatExtra("TEXT_THRESHOLD", 1f)
+        textSpeedMultiplier = intent.getFloatExtra("TEXT_SPEED_MULTIPLIER", 1f)
 
         // TextView'e metni ata
         binding.textView.text = textToDisplay
@@ -50,8 +52,8 @@ class SecondActivity : AppCompatActivity(), SensorEventListener {
             val x = it.values[0]
 
             // Eşik değerine göre hareket algıla
-            if (abs(x - lastX) > threshold) {
-                translationX += (x - lastX) * moveSpeedMultiplier
+            if (abs(x - lastX) > sensorThreshold) {
+                translationX += (x - lastX) * textSpeedMultiplier
                 binding.textView.translationX = translationX  // TextView'in konumunu güncelle
                 lastX = x
                 isMoving = true  // Hareket algılandığında durumu güncelle

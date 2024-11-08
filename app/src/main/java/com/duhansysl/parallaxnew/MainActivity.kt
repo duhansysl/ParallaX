@@ -13,6 +13,8 @@ import com.duhansysl.parallaxnew.SecondActivity
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var textThreshold: Float = 0f
+    private var textSpeedMultiplier: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +28,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         binding.startButton.setOnClickListener {
             val text = binding.textPlain.text.toString()
+            val textLength = text.length
 
             if (text.isEmpty()) {
                 AlertDialog.Builder(this)
@@ -35,12 +39,30 @@ class MainActivity : AppCompatActivity() {
                     .setMessage("Lütfen bir metin giriniz.")
                     .setPositiveButton("Tamam") { dialog, _ -> dialog.dismiss() }
                     .show()
+            } else if (textLength in 1..3) {
+                textThreshold = 1f
+                textSpeedMultiplier = 90f
+            } else if (textLength == 4) {
+                textThreshold = 2.5f
+                textSpeedMultiplier = 120f
+            } else if (textLength == 5) {
+                textThreshold = 2.5f
+                textSpeedMultiplier = 160f
             } else {
-                val intent = Intent(this@MainActivity, SecondActivity::class.java).apply {
-                    putExtra("TEXT", text)
-                }
-                startActivity(intent)
+                AlertDialog.Builder(this)
+                    .setTitle("Hata!")
+                    .setMessage("Lütfen maksimum 5 harfli bir kelime giriniz.")
+                    .setPositiveButton("Tamam") { dialog, _ -> dialog.dismiss() }
+                    .show()
+                return@setOnClickListener
             }
+
+            val intent = Intent(this@MainActivity, SecondActivity::class.java).apply {
+                putExtra("TEXT", text)
+                putExtra("TEXT_THRESHOLD", textThreshold)
+                putExtra("TEXT_SPEED_MULTIPLIER", textSpeedMultiplier)
+            }
+            startActivity(intent)
         }
     }
 }
