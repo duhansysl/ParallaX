@@ -20,7 +20,8 @@
             android:textSize="700sp"
             android:textColor="#FF5722"
             android:padding="16dp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:layout_gravity="center"/>
     </HorizontalScrollView>
 
 </FrameLayout>
