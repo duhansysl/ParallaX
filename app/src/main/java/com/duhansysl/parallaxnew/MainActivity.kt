@@ -13,7 +13,7 @@ import com.duhansysl.parallaxnew.SecondActivity
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var textThreshold: Float = 0f
+    private var sensorThreshold: Float = 0f
     private var textSpeedMultiplier: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,13 +40,13 @@ class MainActivity : AppCompatActivity() {
                     .setPositiveButton("Tamam") { dialog, _ -> dialog.dismiss() }
                     .show()
             } else if (textLength in 1..3) {
-                textThreshold = 1f
+                sensorThreshold = 1f
                 textSpeedMultiplier = 90f
             } else if (textLength == 4) {
-                textThreshold = 2.5f
-                textSpeedMultiplier = 120f
+                sensorThreshold = 1.2f
+                textSpeedMultiplier = 115f
             } else if (textLength == 5) {
-                textThreshold = 2.5f
+                sensorThreshold = 1f
                 textSpeedMultiplier = 160f
             } else {
                 AlertDialog.Builder(this)
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
             val intent = Intent(this@MainActivity, SecondActivity::class.java).apply {
                 putExtra("TEXT", text)
-                putExtra("TEXT_THRESHOLD", textThreshold)
+                putExtra("TEXT_THRESHOLD", sensorThreshold)
                 putExtra("TEXT_SPEED_MULTIPLIER", textSpeedMultiplier)
             }
             startActivity(intent)
